@@ -23,7 +23,7 @@ public class MyClient implements Runnable {
     }
 
     public void run() {
-/*
+
         do{
 
             try {
@@ -40,8 +40,8 @@ public class MyClient implements Runnable {
             }
         }
         while(dataReadLength != -1);
-*/
-        //fileManager.getData(this);
+/*
+        fileManager.getData(this);
         fileManager.getData(this);
         fileManager.getData(this);
         if(dataReadLength != -1){
@@ -50,7 +50,7 @@ public class MyClient implements Runnable {
             System.out.println("Thread "+Thread.currentThread().getId()+" send "+position+"-"+(position+dataReadLength-1)+"/"+fileSize);
 
         }
-
+*/
         //System.out.println(System.currentTimeMillis());
     }
     public void sendPostByTcp(byte[] data, String contentRange, long contentLength, String contentMD5)
@@ -61,7 +61,7 @@ public class MyClient implements Runnable {
         BufferedOutputStream out = null;
         byte[] dataToSend =null;
         try {
-            s =new Socket(ip, 8888);
+            s =new Socket(ip, 8889);
             //s =new Socket("192.168.200.13", 8888);
             in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 
@@ -69,7 +69,7 @@ public class MyClient implements Runnable {
             out = new BufferedOutputStream(outStream);
             //dataToSend = "".getBytes();
 
-            dataToSend = new String("POST /upload/?key="+key+" HTTP/1.1"+"\r\n").getBytes();
+            dataToSend = new String("POST /upload?key="+key+" HTTP/1.1"+"\r\n").getBytes();
             dataToSend = plusBytes(dataToSend, new String("Content-Length: "+contentLength+"\r\n").getBytes());
             dataToSend = plusBytes(dataToSend, new String("Content-Range: bytes "+contentRange+"\r\n").getBytes());
             dataToSend = plusBytes(dataToSend, new String("Content-Type: application/octet-stream"+"\r\n").getBytes());
@@ -81,7 +81,7 @@ public class MyClient implements Runnable {
 
             dataToSend = plusBytes(dataToSend,data);
             //byte[] t = "12".getBytes();
-            dataToSend = ByteUtils.subBytes(dataToSend,0,dataToSend.length-5);
+            //dataToSend = ByteUtils.subBytes(dataToSend,0,dataToSend.length-5);
             out.write(dataToSend);
             out.flush();
             //s.shutdownOutput();
